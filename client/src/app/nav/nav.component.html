@@ -15,10 +15,13 @@
                   <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
                 </li>
               </ng-container>
+              <li class="nav-item">
+                <a class="nav-link" routerLink="/errors" routerLinkActive="active">errors</a>
+              </li>
             </ul>
 
-            <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-                <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle> Welcome {{user.username}}</a>
+            <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as User" dropdown>
+                <a class="dropdown-toggle text-light text-decoration-none" dropdownToggle> Welcome {{User.username}}</a>
                 <div class="dropdown-menu mt-3" *dropdownMenu>
                     <a class="dropdown-item">Edit Profile</a>
                     <a class="dropdown-item" (click)="logout()">LogOut</a>
