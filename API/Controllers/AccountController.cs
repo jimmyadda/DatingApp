@@ -48,7 +48,9 @@ namespace API.Controllers
         [HttpPost("login")] //POST: api/Account/login
         public async Task<ActionResult<UserDto>>Login(LoginDto loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x=>x.UserName == loginDto.UserName);
+            var user = await _context.Users
+            .Include(p => p.Photos)
+            .SingleOrDefaultAsync(x=>x.UserName == loginDto.UserName);
             
 
             if (user == null)  return Unauthorized("Invalid UserName");
@@ -65,7 +67,8 @@ namespace API.Controllers
             return new UserDto
             {
                 UserName = user.UserName,
-                Token = _tokenService.CreateToken(user)
+                Token = _tokenService.CreateToken(user),
+                photoUrl = user.Photos.FirstOrDefault(x => x.IsMain).Url
             }; 
         }
 
