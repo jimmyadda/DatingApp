@@ -48,6 +48,7 @@ if(builder.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+
 //Authenticate MiddleWare
 app.UseAuthentication(); //Valid token
 app.UseAuthorization(); //token valid , wht are you allowed
