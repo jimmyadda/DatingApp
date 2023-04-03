@@ -10,7 +10,7 @@ namespace API.DTOs
         
         [Required] public string KnownAs { get; set; }
         [Required] public string Gender { get; set; }
-        [Required] public DateOnly? DateOfBirth { get; set; } //optional to make required work!
+        [Required] public DateOnly? dateOfBirth { get; set; } //optional to make required work!
         [Required] public string City { get; set; }
         [Required] public string Country { get; set; }
 
