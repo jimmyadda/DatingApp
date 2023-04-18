@@ -6,6 +6,7 @@ using API.Data;
 using API.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions
@@ -25,14 +26,30 @@ namespace API.Extensions
              .AddEntityFrameworkStores<DataContext>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(option =>
+                .AddJwtBearer(options =>
                 {
-                    option.TokenValidationParameters = new TokenValidationParameters
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(config["TokenKey"])),
                     ValidateIssuer = false,
                     ValidateAudience = false
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accesssToken = context.Request.Query["access_token"];
+
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accesssToken) && path.StartsWithSegments("/hubs"))
+                            {
+                                context.Token = accesssToken;
+                            }
+
+                            return Task.CompletedTask;
+                        } 
                     };
                 });
 

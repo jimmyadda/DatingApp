@@ -21,12 +21,12 @@ availableRoles= [
 
   constructor(private adminSevice: AdminService, private modalService: BsModalService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.getUsersWithRoles();
   }
 getUsersWithRoles(){
-  this.adminSevice.getUsersWithRoles().subscribe({
-    next: users => this.users = users
+  this.adminSevice.getUsersWithRoles().subscribe({    
+    next: users => this.users = users    
   })
 }
 
@@ -34,7 +34,7 @@ OpenRolesModal(user: User){
   const config = {
     class:'modal-dialog-centerd',
     initialState:{
-      username: user.username,
+      userName: user.knownAs,
       availableRoles: this.availableRoles,
       selectedRoles: [...user.roles]
     }

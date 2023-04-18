@@ -33,6 +33,7 @@ user: User|null = null;
   }
  
   loadMember(){
+    console.log(this.user)
     if(!this.user) return ;
     this.memberService.getMember(this.user.username).subscribe({
       next: member => this.member = member
