@@ -74,6 +74,12 @@ try
  var context = services.GetRequiredService<DataContext>();
  var userManager = services.GetRequiredService<UserManager<AppUser>>();
  var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
+ //remove connection ol loading app
+ //context.Connections.RemoveRange(context.Connections); //small scale apps
+ //await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE [Connections]"); //Not Workin on sql-lite
+ await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+
  await context.Database.MigrateAsync();
 
  await Seed.SeedUser(userManager,roleManager);
