@@ -14,15 +14,7 @@ users:any;
   ngOnInit(): void {
 
   }
-  // getUsers(){
-  //   this.http.get('https://localhost:5051/api/users').subscribe({
-  //     next: response =>  this.users = response,
-  //     error:error => console.log(error),
-  //     complete : () =>console.log('Request Completed')
-  //   })
-  // }
-
-
+ 
  cancelRegisterMode(event: boolean){
   this.registerMode = event;
 }

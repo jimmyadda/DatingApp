@@ -54,16 +54,21 @@ app.UseCors(builder => builder
 .AllowAnyHeader()
 .AllowAnyMethod()
 .AllowCredentials()
-.WithOrigins("http://localhost:4200"));
+.WithOrigins("https://localhost:4200"));
 
 //Authenticate MiddleWare
 app.UseAuthentication(); //Valid token
 app.UseAuthorization(); //token valid , wht are you allowed
 
+//
+app.UseDefaultFiles(); //publishing
+app.UseStaticFiles(); //publishing
 
 app.MapControllers();
 app.MapHub<PresenceHub>("hubs/presence");
 app.MapHub<MessageHub>("hubs/message");
+
+app.MapFallbackToController("index","Fallback");
 
 using var scope= app.Services.CreateScope();
 
@@ -78,10 +83,13 @@ try
  //remove connection ol loading app
  //context.Connections.RemoveRange(context.Connections); //small scale apps
  //await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE [Connections]"); //Not Workin on sql-lite
- await context.Database.ExecuteSqlRawAsync("DELETE FROM [Connections]");
+ //await context.Database.ExecuteSqlRawAsync("DELETE FROM \"Connections\"");
+
 
  await context.Database.MigrateAsync();
 
+ await Seed.ClearConnections(context);
+ 
  await Seed.SeedUser(userManager,roleManager);
 }
 catch(Exception ex)
